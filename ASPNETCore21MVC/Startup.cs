@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ASPNETCore21MVC.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,10 @@ namespace ASPNETCore21MVC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //上課練習
+            services.AddTransient<IAppSettings, AppSettings>();
+            services.AddScoped<IAppSettingsScoped, AppSettings>();
+            services.AddSingleton<IAppSettingsSingleton, AppSettings>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -38,45 +43,45 @@ namespace ASPNETCore21MVC
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //    app.UseHsts();
-            //}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
-            //app.UseHttpsRedirection();
-            //app.UseStaticFiles();
-            //app.UseCookiePolicy();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCookiePolicy();
 
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            //app.Use(async (context, next) => {
+            //    await context.Response.WriteAsync("Hello");
+            //    await next();
+            //    await context.Response.WriteAsync("Will");
             //});
-            
-            app.Use(async (context, next) => {
-                await context.Response.WriteAsync("Hello");
-                await next();
-                await context.Response.WriteAsync("Will");
-            });
 
-            app.Use(async (context, next) => {
-                await context.Response.WriteAsync("Test");
-                if (context.Request.QueryString.Value != "")
-                {
-                    await next();
-                }
-                await context.Response.WriteAsync("123");
-            });
+            //app.Use(async (context, next) => {
+            //    await context.Response.WriteAsync("Test");
+            //    if (context.Request.QueryString.Value != "")
+            //    {
+            //        await next();
+            //    }
+            //    await context.Response.WriteAsync("123");
+            //});
 
-            app.Run(async (context) => {
-                await context.Response.WriteAsync("World");
-            });
+            //app.Run(async (context) => {
+            //    await context.Response.WriteAsync("World");
+            //});
         }
     }
 }
