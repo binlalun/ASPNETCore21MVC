@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using ASPNETCore21MVC.Models;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
 namespace ASPNETCore21MVC.Controllers
 {
@@ -23,11 +24,13 @@ namespace ASPNETCore21MVC.Controllers
         //    A3 = a3;
         //}
 
-        public IOptionsSnapshot<AppSettings> appSettings { get; set; }
+        public IOptionsSnapshot<AppSettings> appSettings { get; }
+        public ILogger<HomeController> Log { get; }
 
-        public HomeController(IOptionsSnapshot<AppSettings> settings)
+        public HomeController(ILogger<HomeController> log, IOptionsSnapshot<AppSettings> settings)
         {
             this.appSettings = settings;
+            this.Log = log;
         }
 
         //public IActionResult Test1()
@@ -49,6 +52,8 @@ namespace ASPNETCore21MVC.Controllers
         public IActionResult Index()
         {
             //HttpContext.Session.
+            Log.LogCritical("頁面死掉了!");
+
             return Content(this.appSettings.Value.IP);
         }
 
