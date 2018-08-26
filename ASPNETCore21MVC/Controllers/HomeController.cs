@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using ASPNETCore21MVC.Models;
 
 namespace ASPNETCore21MVC.Controllers
@@ -39,6 +40,8 @@ namespace ASPNETCore21MVC.Controllers
 
         public IActionResult Index()
         {
+            //HttpContext.Session.
+
             return View();
         }
 

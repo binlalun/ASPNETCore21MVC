@@ -37,6 +37,10 @@ namespace ASPNETCore21MVC
             services.AddScoped<IAppSettingsScoped, AppSettings>();
             services.AddSingleton<IAppSettingsSingleton, AppSettings>();
 
+            //設定啟用session
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -55,7 +59,19 @@ namespace ASPNETCore21MVC
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    OnPrepareResponse = ctx =>
+            //    {
+            //        ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
+            //    }
+            //});
+
             app.UseCookiePolicy();
+            
+            //要讓MVC可以使用Session，所以要放在UseMvc之前
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
