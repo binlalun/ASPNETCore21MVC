@@ -52,6 +52,9 @@ namespace ASPNETCore21MVC
             //取得設定檔(法二:標準作法)
             services.Configure<AppSettings>(Configuration.GetSection("SMTP:TTT"));
 
+            //通常搭配EF的dbContext，較少直接注入連線字串
+            //Configuration.GetConnectionString("DefaultConnection");
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
