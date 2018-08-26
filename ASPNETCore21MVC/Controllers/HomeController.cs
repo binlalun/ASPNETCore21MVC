@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using ASPNETCore21MVC.Models;
+using Microsoft.Extensions.Options;
 
 namespace ASPNETCore21MVC.Controllers
 {
@@ -22,9 +23,9 @@ namespace ASPNETCore21MVC.Controllers
         //    A3 = a3;
         //}
 
-        public AppSettings appSettings { get; set; }
+        public IOptionsSnapshot<AppSettings> appSettings { get; set; }
 
-        public HomeController(AppSettings settings)
+        public HomeController(IOptionsSnapshot<AppSettings> settings)
         {
             this.appSettings = settings;
         }
@@ -48,7 +49,7 @@ namespace ASPNETCore21MVC.Controllers
         public IActionResult Index()
         {
             //HttpContext.Session.
-            return Content(this.appSettings.SMTP_IP);
+            return Content(this.appSettings.Value.IP);
         }
 
         public IActionResult About()

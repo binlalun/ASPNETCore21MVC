@@ -17,6 +17,6 @@ namespace ASPNETCore21MVC.Models
     //}
     public class AppSettings
     {
-        public string SMTP_IP { get; set; }
+        public string IP { get; set; }
     }
 }

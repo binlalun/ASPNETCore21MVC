@@ -42,12 +42,15 @@ namespace ASPNETCore21MVC
             services.AddDistributedMemoryCache();
             services.AddSession();
 
-            //取得設定檔
-            var appSettings = new AppSettings();
+            //取得設定檔(法一)
+            //var appSettings = new AppSettings();
             //Configuration.Bind(appSettings);
             //Configuration.GetSection("App").Bind(appSettings);
-            Configuration.GetSection("App:FTV").Bind(appSettings);
-            services.AddSingleton<AppSettings>(appSettings);
+            //Configuration.GetSection("SMTP:TTT").Bind(appSettings);
+            //services.AddSingleton<AppSettings>(appSettings);
+
+            //取得設定檔(法二:標準作法)
+            services.Configure<AppSettings>(Configuration.GetSection("SMTP:TTT"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -78,7 +81,7 @@ namespace ASPNETCore21MVC
 
             //GDPR用
             app.UseCookiePolicy();
-            
+
             //要讓MVC可以使用Session，所以要放在UseMvc之前
             app.UseSession();
 
