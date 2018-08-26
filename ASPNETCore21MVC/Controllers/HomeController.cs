@@ -11,38 +11,44 @@ namespace ASPNETCore21MVC.Controllers
 {
     public class HomeController : Controller
     {
-        public IAppSettings A1 { get; }
-        public IAppSettingsScoped A2 { get; }
-        public IAppSettingsSingleton A3 { get; }
+        //public IAppSettings A1 { get; }
+        //public IAppSettingsScoped A2 { get; }
+        //public IAppSettingsSingleton A3 { get; }
 
-        public HomeController(IAppSettings a1, IAppSettingsScoped a2, IAppSettingsSingleton a3)
+        //public HomeController(IAppSettings a1, IAppSettingsScoped a2, IAppSettingsSingleton a3)
+        //{
+        //    A1 = a1;
+        //    A2 = a2;
+        //    A3 = a3;
+        //}
+
+        public AppSettings appSettings { get; set; }
+
+        public HomeController(AppSettings settings)
         {
-            A1 = a1;
-            A2 = a2;
-            A3 = a3;
+            this.appSettings = settings;
         }
 
-        public IActionResult Test1()
-        {
-            return Content(A1.Name);
-        }
+        //public IActionResult Test1()
+        //{
+        //    return Content(A1.Name);
+        //}
 
-        public IActionResult Test2()
-        {
-            return Content(A2.Name);
-        }
+        //public IActionResult Test2()
+        //{
+        //    return Content(A2.Name);
+        //}
 
-        public IActionResult Test3()
-        {
-            return Content(A3.Name);
-        }
+        //public IActionResult Test3()
+        //{
+        //    return Content(A3.Name);
+        //}
 
 
         public IActionResult Index()
         {
             //HttpContext.Session.
-
-            return View();
+            return Content(this.appSettings.SMTP_IP);
         }
 
         public IActionResult About()

@@ -25,6 +25,7 @@ namespace ASPNETCore21MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //GDPR用
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -33,14 +34,21 @@ namespace ASPNETCore21MVC
             });
 
             //上課練習
-            services.AddTransient<IAppSettings, AppSettings>();
-            services.AddScoped<IAppSettingsScoped, AppSettings>();
-            services.AddSingleton<IAppSettingsSingleton, AppSettings>();
+            //services.AddTransient<IAppSettings, AppSettings>();
+            //services.AddScoped<IAppSettingsScoped, AppSettings>();
+            //services.AddSingleton<IAppSettingsSingleton, AppSettings>();
 
             //設定啟用session
             services.AddDistributedMemoryCache();
             services.AddSession();
-            
+
+            //取得設定檔
+            var appSettings = new AppSettings();
+            //Configuration.Bind(appSettings);
+            //Configuration.GetSection("App").Bind(appSettings);
+            Configuration.GetSection("App:FTV").Bind(appSettings);
+            services.AddSingleton<AppSettings>(appSettings);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -68,6 +76,7 @@ namespace ASPNETCore21MVC
             //    }
             //});
 
+            //GDPR用
             app.UseCookiePolicy();
             
             //要讓MVC可以使用Session，所以要放在UseMvc之前
